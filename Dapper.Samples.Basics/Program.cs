@@ -51,28 +51,28 @@ namespace Dapper.Samples.Basics
                 var queryResult = conn.Query<User>("SELECT [Id], [FirstName], [LastName] FROM dbo.[Users]");
                 Console.WriteLine("{0} is a {1}", nameof(queryResult), queryResult.GetType());                
                 queryResult.ToList().ForEach(u => Console.WriteLine($"{u}"));                
-            });
+            });           
 
-            // Return an untyped object
-            ExecuteSample("3. Return an object scalar", conn =>
+            // Execute sample: return affected rows
+            ExecuteSample("3. Execute a statement and return affected rows. Any resultset will be discared.", conn =>
+            {
+                int affectedRows = conn.Execute("UPDATE dbo.[Users] SET [FirstName] = 'John' WHERE [Id] = 3");
+                Console.WriteLine("'UPDATE' Affected Rows: {0}", affectedRows);
+            });                        
+            
+            // Return an untyped scalar
+            ExecuteSample("4. Return an object scalar", conn =>
             {
                 object firstName = conn.ExecuteScalar("SELECT [FirstName] FROM dbo.[Users] WHERE [Id] = 1");
                 Console.WriteLine("{0} ({1}): {2}", nameof(firstName), firstName.GetType(), firstName);
             });
 
-            // Return an typed object
-            ExecuteSample("4. Return a typed object", conn =>
+            // Return an typed scalar
+            ExecuteSample("5. Return a typed object", conn =>
             {
                 var firstName = conn.ExecuteScalar<string>("SELECT [FirstName] FROM dbo.[Users] WHERE [Id] = 1");
                 Console.WriteLine("{0} ({1}): {2}", nameof(firstName), firstName.GetType(), firstName);
             });
-
-            // Execute sample: return affected rows
-            ExecuteSample("5. Execute a statement and return affected rows. Any resultset will be discared.", conn =>
-            {
-                int affectedRows = conn.Execute("UPDATE dbo.[Users] SET [FirstName] = 'John' WHERE [Id] = 3");
-                Console.WriteLine("'UPDATE' Affected Rows: {0}", affectedRows);
-            });            
             
             // Parameters sample
             ExecuteSample("6. Create and set parameter values using anonymous objects.", conn =>
@@ -99,6 +99,7 @@ namespace Dapper.Samples.Basics
                 queryResult.ToList().ForEach(u => Console.WriteLine($"{u}"));                          
             });
 
+            // Parameters
             ExecuteSample("9. Execute a stored procedure that has input and output params and a return value.", conn =>
             {
                 DynamicParameters dp = new DynamicParameters();
@@ -112,13 +113,14 @@ namespace Dapper.Samples.Basics
                 Console.WriteLine("User: {0}, {1}, {2}", dp.Get<int>("result"), dp.Get<string>("firstName"), dp.Get<string>("lastName"));                
             });
 
+            // Return a DataReader
             ExecuteSample("10. Get a DataReader, if you really prefer.", conn => {
                 var dataReader = conn.ExecuteReader("SELECT [Id], [FirstName], [LastName] FROM dbo.[Users]");
                 while (dataReader.Read())
                 {
                     Console.WriteLine("User: {0}, {1}, {2}", dataReader["Id"], dataReader["FirstName"], dataReader["LastName"]);
                 }                
-            });
+            });            
         }
     }
 }
