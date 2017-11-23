@@ -1,7 +1,7 @@
-# Dapper .NET Sample
+# Dapper .NET Samples
 ## Samples that shows how to use Dapper .NET.
 
-These are the samples mentioned in the Dapper .Net publication on Medium:
+These are the samples mentioned in the [Dapper .Net](https://github.com/StackExchange/Dapper) publication on Medium:
 
 https://medium.com/dapper-net
 
