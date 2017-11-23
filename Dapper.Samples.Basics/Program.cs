@@ -81,8 +81,20 @@ namespace Dapper.Samples.Basics
                 queryResult.ToList().ForEach(u => Console.WriteLine($"{u}"));                     
             });            
 
-            ExecuteSample("7. Create and set parameter values and properties (type and size).", conn =>
+            ExecuteSample("6b. Use an IEnumerable as parameter.", conn =>
             {
+                string[] lastNames = new string[] { "Black", "Green", "White", "Brown" };
+
+                var queryResult = conn.Query<User>(
+                        "SELECT [Id], [FirstName], [LastName] FROM dbo.[Users] WHERE LastName in @LastName", 
+                        new { @LastName = lastNames }
+                        );
+
+                queryResult.ToList().ForEach(u => Console.WriteLine($"{u}"));                     
+            });            
+
+            ExecuteSample("7. Create and set parameter values and properties (type and size).", conn =>
+            {                
                 DynamicParameters dp = new DynamicParameters();
                 dp.Add("FirstName", "Davide", DbType.String, ParameterDirection.Input, 100);
                 dp.Add("LastName", "Mauri");
