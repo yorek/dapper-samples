@@ -17,8 +17,7 @@ namespace Dapper.Samples.Basics
             var builder = new SqlConnectionStringBuilder()
             {
                 DataSource = @"(LocalDB)\MSSQLLocalDB",
-                AttachDBFilename = $@"{dataFolder.FullName
-                }\DapperSample.mdf",
+                AttachDBFilename = $@"{dataFolder.FullName}\DapperSample.mdf",
                 IntegratedSecurity = true,
                 ConnectTimeout = 30,
                 ApplicationName = "Dapper.Samples.Basics"
@@ -77,7 +76,18 @@ namespace Dapper.Samples.Basics
             // Parameters sample
             ExecuteSample("6. Create and set parameter values using anonymous objects.", conn =>
             {
-                var queryResult = conn.Query<User>("SELECT [Id], [FirstName], [LastName] FROM dbo.[Users] WHERE Id = @Id", new { @Id = 1 });
+                var queryResult = conn.Query<User>(
+                    "SELECT [Id], [FirstName], [LastName] FROM dbo.[Users] WHERE Id = @Id OR EmailAddress = @Email", 
+                    new { 
+                        @Id = 1, 
+                        @Email = new DbString() { 
+                            Value = "info@davidemauri.it", 
+                            IsAnsi = false, 
+                            IsFixedLength = false, 
+                            Length = 100
+                        } 
+                    });
+
                 queryResult.ToList().ForEach(u => Console.WriteLine($"{u}"));                     
             });            
 
