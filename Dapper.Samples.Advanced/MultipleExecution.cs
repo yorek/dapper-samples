@@ -6,8 +6,12 @@ using Dapper;
 
 namespace Dapper.Samples.Advanced
 {
-    public class MultipleExecution
+    public class MultipleExecution: ISample
     {
+        public string Name => "Multiple Execution";
+
+        public int Order => 1;
+
         public class ShoppingCart{
             public string UserName { get; set; }
 
@@ -28,7 +32,7 @@ namespace Dapper.Samples.Advanced
             public decimal SellingPrice { get; set; }
         }
         
-        public static void ShowSample(SqlConnection conn)
+        public void ShowSample(SqlConnection conn)
         {
             ShoppingCart sc = new ShoppingCart("Davide");
             sc.Items.Add(new ShoppingCartItem() { ProductName = "Soccer Ball", Quantity = 1, SellingPrice = 10.99M });

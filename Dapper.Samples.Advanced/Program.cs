@@ -3,9 +3,17 @@ using System.IO;
 using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
+using System.Reflection;
 
 namespace Dapper.Samples.Advanced
 {
+    public interface ISample
+    {
+        int Order { get; }
+        string Name { get; }
+        void ShowSample(SqlConnection conn);
+    }
+
     class Program
     {
         static void Main(string[] args)
@@ -32,10 +40,33 @@ namespace Dapper.Samples.Advanced
                 {
                     action(conn);
                 }
+                Console.WriteLine("Done");   
                 Console.WriteLine();                    
             };
 
-            ExecuteSample("Mulitple Execution", conn => MultipleExecution.ShowSample(conn));
+            Console.WriteLine("Looking for samples...");
+            var samples = from t in Assembly.GetExecutingAssembly().GetTypes() 
+                where t.GetInterfaces().Contains(typeof(ISample)) 
+                select Activator.CreateInstance(t) as ISample;
+            Console.WriteLine("Ready!");
+            Console.WriteLine();
+            
+            var orderedSamples = from s in samples 
+                                    orderby s.Order 
+                                    where (
+                                        args.Count()==0 || 
+                                        (args.Count() > 0 && s.Name.Equals(args[0], StringComparison.InvariantCultureIgnoreCase))
+                                    )
+                                    select s;
+
+            if (orderedSamples.Count() == 0) 
+            {
+                Console.WriteLine("No sample found with the given name");                                
+            } 
+            else 
+            {
+                orderedSamples.ToList().ForEach(s => ExecuteSample(s.Name, conn => s.ShowSample(conn)));    
+            }            
         }
     }
 }
