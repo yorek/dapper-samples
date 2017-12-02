@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -14,34 +15,34 @@ namespace Dapper.Samples.Advanced
 
         public class User
         {
-            public string FirstName { get; private set; }
-            public string LastName { get; private set; }
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+            public Company Company { get; set; }
 
             public override string ToString()
             {
-                return $"USER => FirstName: {FirstName}, LastName: {LastName}";
+                return 
+                    $"USER => FirstName: {FirstName}, LastName: {LastName}" + Environment.NewLine + Company.ToString();
             }
         }
 
         public class Company
         {
-            public int CompanyId { get; private set; }
-            public string CompanyName { get; private set; }
+            public int CompanyId { get; set; }
+            public string CompanyName { get; set; }            
+            public Address Address { get; set; }
 
             public override string ToString()
             {
-                return $"COMPANY => FirstName: {CompanyName}";
+                return $"COMPANY => CompanyName: {CompanyName}" + Environment.NewLine + Address.ToString();
             }
         }
 
         public class Address
         {
             public string Street { get; private set; }
-
             public string City { get; private set; }
-
             public string State { get; private set; }
-
             public string Country { get; private set; }
 
             public override string ToString()
@@ -52,12 +53,19 @@ namespace Dapper.Samples.Advanced
         
         public void ShowSample(SqlConnection conn)
         {
-            var result = conn.QueryFirst<User, Company, Address, User>(
+            var result = conn.Query<User, Company, Address, User>(
                 "SELECT * FROM [dbo].[UsersCompanies] WHERE UserId = @userId", 
-                new { @userId = 5 },
-                (u, c, a) = {},
-                splitOn: "CompanyName,Street"
+                map: (u, c, a) => {
+                    u.Company = c;
+                    c.Address = a;
+
+                    return u;
+                },                
+                splitOn: "CompanyName,Street",
+                param: new { @userId = 5 }
             );
+
+            result.ToList().ForEach(u => Console.WriteLine(u));
         }
     }
 }
