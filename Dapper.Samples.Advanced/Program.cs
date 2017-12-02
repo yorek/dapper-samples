@@ -61,12 +61,15 @@ namespace Dapper.Samples.Advanced
 
             if (orderedSamples.Count() == 0) 
             {
-                Console.WriteLine("No sample found with the given name");                                
+                Console.WriteLine("No sample found with the given name. The available samples are:");     
+                samples.OrderBy(s => s.Order).ToList().ForEach(s => Console.WriteLine($"{s.Order}. {s.Name}"));
             } 
             else 
             {
                 orderedSamples.ToList().ForEach(s => ExecuteSample(s.Name, conn => s.ShowSample(conn)));    
             }            
+
+            Console.WriteLine();
         }
     }
 }

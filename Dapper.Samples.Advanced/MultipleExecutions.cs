@@ -8,7 +8,7 @@ namespace Dapper.Samples.Advanced
 {
     public class MultipleExecution: ISample
     {
-        public string Name => "Multiple Execution";
+        public string Name => "Multiple Executions";
 
         public int Order => 1;
 
