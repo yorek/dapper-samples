@@ -10,10 +10,9 @@ Work is still in progress, so come back often to check out new articles and samp
 Here's the list of articles published so far:
 
  1. [Getting Started with Dapper .NET](https://medium.com/dapper-net/get-started-with-dapper-net-591592c335aa)
- 2. [Multiple Executions]
- 3. [Multiple Resultsets]
- 4. [Multiple Mapping]
-
+ 2. [Multiple Executions](https://medium.com/dapper-net/multiple-executions-56c410e9f8dd)
+ 3. Multiple Resultsets: Coming soon...
+ 
 ## Running The Samples
 
 To run the "Basic Samples", related to the first article "Getting Started with Dapper .NET", just run 
