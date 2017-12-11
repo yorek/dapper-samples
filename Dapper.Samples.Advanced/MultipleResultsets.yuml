@@ -1,0 +1,5 @@
+// {type:class}
+// {direction:leftToRight}
+// https://yuml.me/diagram/scruffy/class/draw
+[Customer]<>-0..*[Order]
+[Order]++-1..*[OrderItem]
