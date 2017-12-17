@@ -1,0 +1,6 @@
+// {type:class}
+// {direction:leftToRight}
+// https://yuml.me/diagram/scruffy/class/draw
+
+[User|FirstName;LastName;Company]->[Company|CompanyName;Address]
+[Company]->[Address|Street;City;State;Country]
