@@ -15,6 +15,7 @@ namespace Dapper.Samples.Advanced
 
         public class User
         {
+            public int Id { get; set; }
             public string FirstName { get; set; }
             public string LastName { get; set; }
             public Company Company { get; set; }
@@ -22,19 +23,19 @@ namespace Dapper.Samples.Advanced
             public override string ToString()
             {
                 return 
-                    $"USER => FirstName: {FirstName}, LastName: {LastName}" + Environment.NewLine + Company.ToString();
+                    $"USER => Id: {Id}, FirstName: {FirstName}, LastName: {LastName}" + Environment.NewLine + Company.ToString();
             }
         }
 
         public class Company
         {
-            public int CompanyId { get; set; }
+            public int Id { get; set; }
             public string CompanyName { get; set; }            
             public Address Address { get; set; }
 
             public override string ToString()
             {
-                return $"COMPANY => CompanyName: {CompanyName}" + Environment.NewLine + Address.ToString();
+                return $"COMPANY => Id: {Id}, CompanyName: {CompanyName}" + Environment.NewLine + Address.ToString();
             }
         }
 
@@ -54,7 +55,7 @@ namespace Dapper.Samples.Advanced
         public void ShowSample(SqlConnection conn)
         {
             var result = conn.Query<User, Company, Address, User>(
-                "SELECT * FROM [dbo].[UsersCompanies] WHERE UserId = @userId", 
+                "SELECT * FROM [dbo].[UsersCompanies] WHERE [UserId] = @userId", 
                 map: (u, c, a) => {
                     u.Company = c;
                     c.Address = a;
