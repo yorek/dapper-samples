@@ -15,6 +15,7 @@ namespace Dapper.Samples.Advanced
 
         public class User
         {
+            public int Id { get; set; }
             public string FirstName { get; set; }
             public string LastName { get; set; }
             public Company Company { get; set; }
@@ -22,39 +23,39 @@ namespace Dapper.Samples.Advanced
             public override string ToString()
             {
                 return 
-                    $"USER => FirstName: {FirstName}, LastName: {LastName}" + Environment.NewLine + Company.ToString();
+                    $"USER => Id: {Id}, FirstName: {FirstName}, LastName: {LastName}" + Environment.NewLine + Company.ToString();
             }
         }
 
         public class Company
         {
-            public int CompanyId { get; set; }
+            public int Id { get; set; }
             public string CompanyName { get; set; }            
             public Address Address { get; set; }
 
             public override string ToString()
             {
-                return $"COMPANY => CompanyName: {CompanyName}" + Environment.NewLine + Address.ToString();
+                return $"COMPANY => Id: {Id}, CompanyName: {CompanyName}" + Environment.NewLine + Address.ToString();
             }
         }
 
         public class Address
         {
-            public string Street { get; private set; }
-            public string City { get; private set; }
-            public string State { get; private set; }
-            public string Country { get; private set; }
+            public string Street { get; set; }
+            public string City { get; set; }
+            public string State { get; set; }
+            public string Country { get; set; }
 
             public override string ToString()
             {
-                return $"Address => {Street} {City} {State} ({Country})";
+                return $"ADDRESS => {Street} {City} {State} ({Country})";
             }
         }
         
         public void ShowSample(SqlConnection conn)
         {
             var result = conn.Query<User, Company, Address, User>(
-                "SELECT * FROM [dbo].[UsersCompanies] WHERE UserId = @userId", 
+                "SELECT * FROM [dbo].[UsersCompanies] WHERE [UserId] = @userId", 
                 map: (u, c, a) => {
                     u.Company = c;
                     c.Address = a;
