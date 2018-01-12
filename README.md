@@ -13,6 +13,7 @@ Here's the list of articles published so far:
  2. [Multiple Executions](https://medium.com/dapper-net/multiple-executions-56c410e9f8dd)
  3. [Multiple Resultsets](https://medium.com/dapper-net/handling-multiple-resultsets-4b108a8c5172)
  4. [Multiple Mapping](https://medium.com/dapper-net/multiple-mapping-d36c637d14fa)
+ 5. [SQL Server Features]()
 
 ## Running The Samples
 
@@ -46,6 +47,25 @@ to run only the "Multiple Execution" sample.
 
 ## Notes
 
-Samples are done using [.NET Core 2.0](https://www.microsoft.com/net/download/windows), make sure you have installed it on your machine.
+### .NET Version
+
+Samples are done using [.NET Core 2.0](https://www.microsoft.com/net/download/windows) and [.NET Framework 4.5.2](https://github.com/Microsoft/dotnet/blob/master/releases/README.md)
+: make sure you have them installed it on your machine.
+
+In order to use features not yet supported by .NET Core 2.0, like SQL Server Spatial Data Types, the project supports multiple targets:
+
+* net452
+* netcoreapp2.0
+
+To execute the application targeting one specifc framework, just use the `-f` option when running the console app:
+
+```dotnet run -f net452```
+
+more info on the `-f` option here:
+
+https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-run?tabs=netcore2x
+
+### SQL Server 
+
 Samples also use SQL Server as database server. If you don't have a Windows machine, you can use the Docker version: [SQL Server 2017](https://www.microsoft.com/en-us/sql-server/sql-server-2017). 
 SQL Server database file is attached automatically using the `LocalDB/MSSQLServer` instance. If you prefer to use a non-local instance, make sure you change the connection string accordingly, and attach the database file to your instance.
