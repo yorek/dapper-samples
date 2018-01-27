@@ -34,7 +34,7 @@ namespace Dapper.Samples.Advanced
 
         public string Name => "SQL Server Features";
 
-        public int Order => 3;
+        public int Order => 4;
 
         public void ShowSample(SqlConnection conn)
         {
@@ -99,7 +99,6 @@ namespace Dapper.Samples.Advanced
 
             Console.WriteLine();
         }
-
 
         private void ShowHierarchyId(SqlConnection conn)
         {
