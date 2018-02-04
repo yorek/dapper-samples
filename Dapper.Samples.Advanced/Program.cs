@@ -36,6 +36,7 @@ namespace Dapper.Samples.Advanced
             Action<string, Action<SqlConnection>> ExecuteSample = (message, action) =>
             {
                 Console.WriteLine(message);
+                Console.WriteLine(new String('-', message.Length));
                 using (var conn = new SqlConnection(builder.ConnectionString))
                 {
                     action(conn);

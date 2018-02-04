@@ -24,7 +24,7 @@ namespace Dapper.Samples.Advanced
 
             public override string ToString()
             {
-                return String.Format($"({Id}) {FirstName},{LastName},{EmailAddress}");
+                return String.Format($"USER => ({Id}) {FirstName},{LastName},{EmailAddress}");
             }
         }
 
@@ -32,11 +32,10 @@ namespace Dapper.Samples.Advanced
         {
             public int Id { get; set; }
             public string CompanyName { get; set; }
-            public Address Address { get; set; }
 
             public override string ToString()
             {
-                return String.Format($"({Id}) {CompanyName}");
+                return String.Format($"COMPANY => ({Id}) {CompanyName}");
             }
         }
 
@@ -46,7 +45,7 @@ namespace Dapper.Samples.Advanced
             // since all column names are unique
             Dictionary<string, string> columnMaps = new Dictionary<string, string>
             {
-                // Column, Property
+                // Column => Property
                 { "UserId", "Id" },
                 { "CompanyId", "Id" }
             };
@@ -76,20 +75,28 @@ namespace Dapper.Samples.Advanced
             SqlMapper.SetTypeMap(typeof(User), userMap);
             SqlMapper.SetTypeMap(typeof(Company), companyMap);
 
-            // Same query as before (just the split column is changed)
-            var queryResult = conn.Query<User, Company, Address, User>(
-                                "SELECT * FROM [dbo].[UsersAndCompanyAndAddress] WHERE UserId = 5",
-                                (u, c, a) =>
-                                {
-                                    u.Company = c;
-                                    u.Company.Address = a;
-                                    return u;
-                                },
-                                splitOn: "CompanyId,Street").First();
+            // Use custom mapping
+            Console.WriteLine();
+            Console.WriteLine("Single Object Test");
+            var user1 = conn.Query<User>("SELECT * FROM [dbo].[UsersCompanies] WHERE UserId = 5").First();
+            Console.WriteLine(user1);
 
-            Console.WriteLine(queryResult);
-            Console.WriteLine(queryResult.Company);
-            Console.WriteLine(queryResult.Company.Address);
+            // Once mapping is set, it will be used
+            // every time the target object is deserialized
+            Console.WriteLine();
+            Console.WriteLine("Multiple Object Test");
+            var user2 = conn.Query<User, Company, User>(
+                "SELECT * FROM [dbo].[UsersCompanies] WHERE UserId = 5",
+                (u, c) =>
+                {
+                    u.Company = c;
+                    return u;
+                },
+                splitOn: "CompanyId").First();
+            Console.WriteLine(user2);
+            Console.WriteLine(user2.Company);
+
+            Console.WriteLine();
         }
     }
 }
