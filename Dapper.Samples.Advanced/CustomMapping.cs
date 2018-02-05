@@ -19,23 +19,37 @@ namespace Dapper.Samples.Advanced
             public int Id { get; set; }
             public string FirstName { get; set; }
             public string LastName { get; set; }
-            public string EmailAddress { get; set; }
             public Company Company { get; set; }
 
             public override string ToString()
             {
-                return String.Format($"USER => ({Id}) {FirstName},{LastName},{EmailAddress}");
+                return 
+                    $"USER => Id: {Id}, FirstName: {FirstName}, LastName: {LastName}" + Environment.NewLine + Company?.ToString();
             }
         }
 
         public class Company
         {
             public int Id { get; set; }
-            public string CompanyName { get; set; }
+            public string CompanyName { get; set; }            
+            public Address Address { get; set; }
 
             public override string ToString()
             {
-                return String.Format($"COMPANY => ({Id}) {CompanyName}");
+                return $"COMPANY => Id: {Id}, CompanyName: {CompanyName}" + Environment.NewLine + Address?.ToString();
+            }
+        }
+
+        public class Address
+        {
+            public string Street { get; set; }
+            public string City { get; set; }
+            public string State { get; set; }
+            public string Country { get; set; }
+
+            public override string ToString()
+            {
+                return $"ADDRESS => {Street} {City} {State} ({Country})";
             }
         }
 
@@ -85,16 +99,16 @@ namespace Dapper.Samples.Advanced
             // every time the target object is deserialized
             Console.WriteLine();
             Console.WriteLine("Multiple Object Test");
-            var user2 = conn.Query<User, Company, User>(
+            var user2 = conn.Query<User, Company, Address, User>(
                 "SELECT * FROM [dbo].[UsersCompanies] WHERE UserId = 5",
-                (u, c) =>
+                (u, c, a) =>
                 {
                     u.Company = c;
+                    u.Company.Address = a;
                     return u;
                 },
-                splitOn: "CompanyId").First();
+                splitOn: "CompanyId,Street").First();
             Console.WriteLine(user2);
-            Console.WriteLine(user2.Company);
 
             Console.WriteLine();
         }
