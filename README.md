@@ -50,8 +50,7 @@ to run only the "Multiple Execution" sample.
 
 ### .NET Version
 
-Samples are done using [.NET Core 2.0](https://www.microsoft.com/net/download/windows) and [.NET Framework 4.5.2](https://github.com/Microsoft/dotnet/blob/master/releases/README.md)
-: make sure you have them installed it on your machine.
+Samples are done using [.NET Core 2.0](https://www.microsoft.com/net/download/windows) and [.NET Framework 4.5.2](https://github.com/Microsoft/dotnet/blob/master/releases/README.md): make sure you have them installed it on your machine.
 
 In order to use features not yet supported by .NET Core 2.0, like SQL Server Spatial Data Types, the project supports multiple targets:
 
@@ -64,7 +63,7 @@ To execute the application targeting one specifc framework, just use the `-f` op
 
 more info on the `-f` option here:
 
-https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-run?tabs=netcore2x
+[dotnet run](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-run?tabs=netcore2x)
 
 ### SQL Server 
 
