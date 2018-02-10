@@ -36,6 +36,7 @@ namespace Dapper.Samples.Advanced
             Action<string, Action<SqlConnection>> ExecuteSample = (message, action) =>
             {
                 Console.WriteLine(message);
+                Console.WriteLine(new String('-', message.Length));
                 using (var conn = new SqlConnection(builder.ConnectionString))
                 {
                     action(conn);
@@ -61,8 +62,21 @@ namespace Dapper.Samples.Advanced
 
             if (orderedSamples.Count() == 0) 
             {
-                Console.WriteLine("No sample found with the given name. The available samples are:");     
+                bool helpRequested = new string[] { "-help", "/help", "/h", "/?", "-?"}.Contains(args[0]);
+
+                if (!helpRequested) {
+                    Console.WriteLine("No sample found with the given name.");
+                    Console.WriteLine();
+                }
+
+                Console.WriteLine("The available samples are:");     
                 samples.OrderBy(s => s.Order).ToList().ForEach(s => Console.WriteLine($"{s.Order}. {s.Name}"));
+
+                if (helpRequested) {
+                    Console.WriteLine();
+                    Console.WriteLine("Run the example you want by specifing the name.");
+                    Console.WriteLine("Eg: dotnet run \"Multiple Mapping\" -f netcoreapp2.0");
+                }
             } 
             else 
             {
