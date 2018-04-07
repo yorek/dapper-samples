@@ -126,7 +126,7 @@ namespace Dapper.Samples.Advanced
 
             conn.Execute("UPDATE dbo.Users SET Roles = @roles WHERE Id = @userId", new { @userId = 1, @roles = roles });
             
-             Console.WriteLine("Setting tags...");
+            Console.WriteLine("Setting tags...");
             
             JArray tags = new JArray() { "Red", "Green", "Blue" };
 
