@@ -15,7 +15,7 @@ Here's the list of articles published so far:
  4. [Multiple Mapping](https://medium.com/dapper-net/multiple-mapping-d36c637d14fa)
  5. [SQL Server Features](https://medium.com/dapper-net/sql-server-specific-features-2773d894a6ae)
  6. [Custom Mapping](https://medium.com/dapper-net/custom-columns-mapping-1cd45dfd51d6)
- 7. [Cusomt Handling]()
+ 7. [Custom Handling]()
 
 ## Running The Samples
 
