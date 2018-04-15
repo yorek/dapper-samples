@@ -15,12 +15,13 @@ Here's the list of articles published so far:
  4. [Multiple Mapping](https://medium.com/dapper-net/multiple-mapping-d36c637d14fa)
  5. [SQL Server Features](https://medium.com/dapper-net/sql-server-specific-features-2773d894a6ae)
  6. [Custom Mapping](https://medium.com/dapper-net/custom-columns-mapping-1cd45dfd51d6)
+ 7. [Cusomt Handling]()
 
 ## Running The Samples
 
 To run the "Basic Samples", related to the first article "Getting Started with Dapper .NET", just run
 
-```dotnet run```
+```dotnet run -f net452```
 
 from
 
@@ -34,17 +35,21 @@ To run advanced samples you have to move into
 
 and then from here you can just run
 
-```dotnet run```
+```dotnet run -f net452```
 
 to run ALL samples or 
 
-```dotnet run "Sample Name"```
+```dotnet run -f net452 "Sample Name"```
 
 to run that specific sample. Eg:
 
-```dotnet run "Multiple Executions"```
+```dotnet run -f net452 "Multiple Executions"```
 
 to run only the "Multiple Execution" sample.
+
+To have a list of all advanced samples available run:
+
+```dotnet run -f net452 -help```
 
 ## Notes
 
