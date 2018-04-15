@@ -74,11 +74,13 @@ namespace Dapper.Samples.Advanced
 
         public class RolesTypeHandler : SqlMapper.TypeHandler<Roles>
         {
+            // Handles how data is deserialized into object
             public override Roles Parse(object value)
             {
                 return Roles.FromString(value.ToString());
             }
 
+            // Handles how data is saved into the database
             public override void SetValue(IDbDataParameter parameter, Roles value)
             {
                 parameter.Value = value.ToString();
@@ -90,7 +92,6 @@ namespace Dapper.Samples.Advanced
             public override JArray Parse(object value)
             {
                 string json = value.ToString();
-                json.Replace("\"", "'");
                 return JArray.Parse(value.ToString());
             }
 
@@ -111,11 +112,18 @@ namespace Dapper.Samples.Advanced
             Console.WriteLine();
             PrepareDatabase(conn);
 
+            Console.WriteLine("Setting Type Handlers...");
+            Console.WriteLine();
             SqlMapper.ResetTypeHandlers();
             SqlMapper.AddTypeHandler(new RolesTypeHandler());
             SqlMapper.AddTypeHandler(new JArrayTypeHandler());
 
-            Console.WriteLine("Setting roles...");
+            Console.WriteLine("Reading user '1'...");
+            var u = conn.QuerySingle<User>("SELECT Id, FirstName, LastName, EmailAddress, Roles, Tags FROM dbo.UsersTagsView WHERE Id = 1");
+            Console.WriteLine(u);
+            Console.WriteLine();
+
+            Console.WriteLine("Updating roles for user '1'...");
 
             Roles roles = new Roles
             {
@@ -126,17 +134,18 @@ namespace Dapper.Samples.Advanced
 
             conn.Execute("UPDATE dbo.Users SET Roles = @roles WHERE Id = @userId", new { @userId = 1, @roles = roles });
             
-            Console.WriteLine("Setting tags...");
+            Console.WriteLine("Adding tags for user '1'...");
             
-            JArray tags = new JArray() { "Red", "Green", "Blue" };
+            JArray tags = new JArray() { "Red", "Green", "Blue"  };
 
             conn.Execute("INSERT INTO dbo.UserTags (UserId, Tag) SELECT @userId, [value] FROM openjson(@tags) ", new { @userId = 1, @tags = tags });
 
-            Console.WriteLine("Reading user...");
-
-            var u = conn.QuerySingle<User>("SELECT * FROM dbo.UsersTagsView WHERE Id = 1");
-
+            Console.WriteLine();
+            Console.WriteLine("Reading user '1'...");
+            u = conn.QuerySingle<User>("SELECT Id, FirstName, LastName, EmailAddress, Roles, Tags FROM dbo.UsersTagsView WHERE Id = 1");
             Console.WriteLine(u);
+
+            Console.WriteLine();
         }
     }
 }

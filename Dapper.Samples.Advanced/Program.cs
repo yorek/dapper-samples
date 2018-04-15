@@ -18,7 +18,12 @@ namespace Dapper.Samples.Advanced
     {
         static void Main(string[] args)
         {
-             var dataFolder = Directory.GetParent(Environment.CurrentDirectory).GetDirectories("Dapper.Samples.Data").Single();
+            Console.WriteLine("Dapper .NET Usage Samples");
+            Console.WriteLine("by Davide Mauri");
+            Console.WriteLine("https://medium.com/dapper-net");
+            Console.WriteLine();
+
+            var dataFolder = Directory.GetParent(Environment.CurrentDirectory).GetDirectories("Dapper.Samples.Data").Single();
 
             // Create connection string
             var builder = new SqlConnectionStringBuilder()
@@ -45,7 +50,7 @@ namespace Dapper.Samples.Advanced
                 Console.WriteLine();                    
             };
 
-            Console.WriteLine("Looking for samples...");
+            Console.WriteLine("Looking for available samples...");
             var samples = from t in Assembly.GetExecutingAssembly().GetTypes() 
                 where t.GetInterfaces().Contains(typeof(ISample)) 
                 select Activator.CreateInstance(t) as ISample;
