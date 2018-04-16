@@ -14,15 +14,16 @@ Here's the list of articles published so far:
  3. [Multiple Resultsets](https://medium.com/dapper-net/handling-multiple-resultsets-4b108a8c5172)
  4. [Multiple Mapping](https://medium.com/dapper-net/multiple-mapping-d36c637d14fa)
  5. [SQL Server Features](https://medium.com/dapper-net/sql-server-specific-features-2773d894a6ae)
- 6. [Custom Mapping](https://medium.com/dapper-net/custom-columns-mapping-1cd45dfd51d6) 
+ 6. [Custom Mapping](https://medium.com/dapper-net/custom-columns-mapping-1cd45dfd51d6)
+ 7. [Custom Handling](https://medium.com/dapper-net/custom-type-handling-4b447b97c620)
 
 ## Running The Samples
 
-To run the "Basic Samples", related to the first article "Getting Started with Dapper .NET", just run 
+To run the "Basic Samples", related to the first article "Getting Started with Dapper .NET", just run
 
-```dotnet run```
+```dotnet run -f net452```
 
-from 
+from
 
 ```Dapper.Samples.Basics```
 
@@ -34,17 +35,21 @@ To run advanced samples you have to move into
 
 and then from here you can just run
 
-```dotnet run```
+```dotnet run -f net452```
 
 to run ALL samples or 
 
-```dotnet run "Sample Name"```
+```dotnet run -f net452 "Sample Name"```
 
 to run that specific sample. Eg:
 
-```dotnet run "Multiple Executions"```
+```dotnet run -f net452 "Multiple Executions"```
 
 to run only the "Multiple Execution" sample.
+
+To have a list of all advanced samples available run:
+
+```dotnet run -f net452 -help```
 
 ## Notes
 
@@ -65,7 +70,7 @@ more info on the `-f` option here:
 
 [dotnet run](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-run?tabs=netcore2x)
 
-### SQL Server 
+### SQL Server
 
 Samples also use SQL Server as database server. If you don't have a Windows machine, you can use the Docker version: [SQL Server 2017](https://www.microsoft.com/en-us/sql-server/sql-server-2017). 
 SQL Server database file is attached automatically using the `LocalDB/MSSQLServer` instance. If you prefer to use a non-local instance, make sure you change the connection string accordingly, and attach the database file to your instance.
