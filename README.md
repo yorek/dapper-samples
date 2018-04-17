@@ -27,9 +27,7 @@ from
 
 ```Dapper.Samples.Basics```
 
-folder.
-
-To run advanced samples you have to move into 
+folder. To run advanced samples you have to move into 
 
 ```Dapper.Samples.Advanced```
 
