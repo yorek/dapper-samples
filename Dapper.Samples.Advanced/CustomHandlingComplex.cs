@@ -10,11 +10,11 @@ using Newtonsoft.Json.Linq;
 
 namespace Dapper.Samples.Advanced
 {
-    public class OneToMany : ISample
+    public class CustomHandlingComplex : ISample
     {
-        public int Order => 9;
+        public int Order => 8;
 
-        public string Name => "One-To-Many";
+        public string Name => "Custom Handling Complex";
 
         public class User
         {
@@ -29,7 +29,11 @@ namespace Dapper.Samples.Advanced
 
             public override string ToString()
             {
-                return String.Format($"({Id}) {FirstName},{LastName},{EmailAddress}");
+               return 
+                    $"USER => Id: {Id}, FirstName: {FirstName}, LastName: {LastName}" + Environment.NewLine + 
+                    $"ROLES => {Roles?.ToString()}" + Environment.NewLine + 
+                    $"TAGS => {Tags?.ToString()}" + Environment.NewLine + 
+                    $"COMPANY => {Company?.ToString()}";
             }
         }
 
@@ -41,7 +45,7 @@ namespace Dapper.Samples.Advanced
 
             public override string ToString()
             {
-                return String.Format($"({Id}) {CompanyName}");
+                return String.Format($"Id: {Id}, Name: {CompanyName}, Address: {Address.ToString()}");
             }
         }
 
@@ -66,7 +70,9 @@ namespace Dapper.Samples.Advanced
         {
             public string RoleName { get; set; }
 
-            public Role() { }
+            public Role()
+            {
+            }
 
             public Role(string name)
             {
@@ -83,18 +89,7 @@ namespace Dapper.Samples.Advanced
         {
             public override string ToString()
             {
-                return string.Join("|", this);
-            }
-
-            public static Roles FromString(string value)
-            {
-                Roles result = new Roles();
-
-                string[] roles = value.ToString().Split('|');
-
-                result.AddRange(roles.Select(r => new Role(r)));
-
-                return result;
+                return string.Join(",", this);
             }
         }
 
@@ -104,21 +99,7 @@ namespace Dapper.Samples.Advanced
             public string Style;
             public string Resolution;
         }
-
-        public class JArrayTypeHandler : SqlMapper.TypeHandler<JArray>
-        {
-            public override JArray Parse(object value)
-            {
-                string json = value.ToString();
-                return JArray.Parse(value.ToString());
-            }
-
-            public override void SetValue(IDbDataParameter parameter, JArray value)
-            {
-                parameter.Value = value.ToString();
-            }
-        }
-
+       
         public class UserTypeHandler : SqlMapper.TypeHandler<User>
         {
             public override User Parse(object value)
@@ -132,17 +113,24 @@ namespace Dapper.Samples.Advanced
             }
         }
 
+        private void PrepareDatabase(SqlConnection conn)
+        {
+            conn.Execute("DELETE ut FROM dbo.[UserTags] ut INNER JOIN dbo.[Users] u ON ut.UserId = u.Id WHERE EMailAddress = 'davide.mauri@gmail.com'");
+            conn.Execute("DELETE FROM dbo.[Users] WHERE EMailAddress = 'davide.mauri@gmail.com'");
+            conn.Execute("DELETE FROM dbo.[Companies] WHERE CompanyName = 'Microsoft'");
+        }
 
         public void ShowSample(SqlConnection conn)
         {
             Console.WriteLine();
+            PrepareDatabase(conn);
 
             Console.WriteLine("Setting Type Handlers...");
             Console.WriteLine();
-
             SqlMapper.ResetTypeHandlers();
-            SqlMapper.AddTypeHandler(new JArrayTypeHandler());
+            SqlMapper.AddTypeHandler(new UserTypeHandler());
 
+            Console.WriteLine("Creating User Object...");
             User u = new User()
             {
                 FirstName = "Davide",
@@ -169,13 +157,36 @@ namespace Dapper.Samples.Advanced
                         City = "Redmond",
                         State = "WA",
                         Country = "United States",
-                        Street = "16225 NE 87th Street"
+                        Street = "350 157th Place NE"
                     }
                 }
             };
 
-            //var executeResult = conn.Set<User>(u);
+            Console.WriteLine("Saving User Object to Database via Set<User>...");
             Console.WriteLine();
+            var savedUser = conn.Set<User>(u);            
+            Console.WriteLine(savedUser.ToString());
+            Console.WriteLine();
+
+            Console.WriteLine("Retreving another User Object from Database via Get<User>...");
+            Console.WriteLine();
+            var anotherUser = conn.Get<User>(5);            
+            Console.WriteLine(anotherUser.ToString());
+
+            Console.WriteLine();
+        }
+    }
+
+    public static class ExtensionHelper
+    {
+        public static T Set<T>(this SqlConnection conn, T payload)
+        {
+            return conn.ExecuteScalar<T>($"dbo.Set{typeof(T).Name}", new { payload }, commandType: CommandType.StoredProcedure);
+        }
+
+        public static T Get<T>(this SqlConnection conn, int id)
+        {
+            return conn.ExecuteScalar<T>($"dbo.Get{typeof(T).Name}", new { id }, commandType: CommandType.StoredProcedure);
         }
     }
 }
