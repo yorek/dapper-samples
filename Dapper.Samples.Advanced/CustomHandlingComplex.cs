@@ -12,7 +12,7 @@ namespace Dapper.Samples.Advanced
 {
     public class CustomHandlingComplex : ISample
     {
-        public int Order => 8;
+        public int Order => 9;
 
         public string Name => "Custom Handling Complex";
 

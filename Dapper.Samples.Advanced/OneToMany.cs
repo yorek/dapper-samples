@@ -12,7 +12,7 @@ namespace Dapper.Samples.Advanced
 {
     public class OneToMany : ISample
     {
-        public int Order => 9;
+        public int Order => 8;
 
         public string Name => "One-To-Many";
 
