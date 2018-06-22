@@ -49,14 +49,14 @@ namespace Dapper.Samples.Advanced
             }
         }
 
-        public class UserTypeHandler : SqlMapper.TypeHandler<User>
+        public class TypeHandler<T> : SqlMapper.TypeHandler<T>
         {
-            public override User Parse(object value)
+            public override T Parse(object value)
             {
-                return JsonConvert.DeserializeObject<User>(value.ToString());
+                return JsonConvert.DeserializeObject<T>(value.ToString());
             }
 
-            public override void SetValue(IDbDataParameter parameter, User value)
+            public override void SetValue(IDbDataParameter parameter, T value)
             {
                 parameter.Value = JsonConvert.SerializeObject(value);
             }
@@ -71,7 +71,7 @@ namespace Dapper.Samples.Advanced
             Console.WriteLine();
 
             SqlMapper.ResetTypeHandlers();
-            SqlMapper.AddTypeHandler(new UserTypeHandler());
+            SqlMapper.AddTypeHandler(new TypeHandler<User>());
 
             var users = conn.Query<User>("dbo.GetUsersJson", commandType: CommandType.StoredProcedure);
             users.ToList().ForEach(u => {

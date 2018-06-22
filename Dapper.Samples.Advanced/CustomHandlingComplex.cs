@@ -100,14 +100,14 @@ namespace Dapper.Samples.Advanced
             public string Resolution;
         }
        
-        public class UserTypeHandler : SqlMapper.TypeHandler<User>
+        public class CustomTypeHandler<T> : SqlMapper.TypeHandler<T>
         {
-            public override User Parse(object value)
+            public override T Parse(object value)
             {
-                return JsonConvert.DeserializeObject<User>(value.ToString());
+                return JsonConvert.DeserializeObject<T>(value.ToString());
             }
 
-            public override void SetValue(IDbDataParameter parameter, User value)
+            public override void SetValue(IDbDataParameter parameter, T value)
             {
                 parameter.Value = JsonConvert.SerializeObject(value);
             }
@@ -128,7 +128,7 @@ namespace Dapper.Samples.Advanced
             Console.WriteLine("Setting Type Handlers...");
             Console.WriteLine();
             SqlMapper.ResetTypeHandlers();
-            SqlMapper.AddTypeHandler(new UserTypeHandler());
+            SqlMapper.AddTypeHandler(new CustomTypeHandler<User>());
 
             Console.WriteLine("Creating User Object...");
             User u = new User()
