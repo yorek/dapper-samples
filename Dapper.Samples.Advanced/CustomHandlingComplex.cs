@@ -14,7 +14,7 @@ namespace Dapper.Samples.Advanced
     {
         public int Order => 9;
 
-        public string Name => "Custom Handling Complex";
+        public string Name => "Complex Custom Handling";
 
         public class User
         {
