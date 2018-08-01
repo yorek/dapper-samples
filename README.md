@@ -7,7 +7,7 @@ These are the samples mentioned in the [Dapper .Net](https://github.com/StackExc
 
 Work is still in progress, so come back often to check out new articles and samples. My aim to to publish one article per week, until all feature of Dapper are covered.
 
-Here's the list of articles published so far:
+Here's the list of samples related to articles published so far:
 
  1. [Getting Started with Dapper .NET](https://medium.com/dapper-net/get-started-with-dapper-net-591592c335aa)
  2. [Multiple Executions](https://medium.com/dapper-net/multiple-executions-56c410e9f8dd)
