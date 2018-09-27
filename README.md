@@ -19,6 +19,8 @@ Here's the list of samples related to articles published so far:
  8. [One-To-Many Relationships](https://medium.com/dapper-net/one-to-many-mapping-with-dapper-55ae6a65cfd4)
  9. [Complex Custom Handling](https://medium.com/dapper-net/one-to-many-mapping-with-dapper-55ae6a65cfd4)
 
+Please note that the "One-To-Many Relatioships" and "Complex Custom Handling" points to the same articles since both topics are discussed there as they are strictly related to each other.
+
 ## Running The Samples
 
 To run the "Basic Samples", related to the first article "Getting Started with Dapper .NET", just run
