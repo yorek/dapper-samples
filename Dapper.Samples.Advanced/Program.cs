@@ -23,18 +23,29 @@ namespace Dapper.Samples.Advanced
             Console.WriteLine("https://medium.com/dapper-net");
             Console.WriteLine();
 
-            var dataFolder = Directory.GetParent(Environment.CurrentDirectory).GetDirectories("Dapper.Samples.Data").Single();
+            //var dataSource = @"(LocalDB)\MSSQLLocalDB";
+            var dataSource = @".";
 
             // Create connection string
+            var dataFolder = Directory.GetParent(Environment.CurrentDirectory).GetDirectories("Dapper.Samples.Data").Single();
             var builder = new SqlConnectionStringBuilder()
             {
-                DataSource = @"(LocalDB)\MSSQLLocalDB",
+                DataSource = dataSource,
                 AttachDBFilename = $@"{dataFolder.FullName}\DapperSample.mdf",
                 IntegratedSecurity = true,
                 ConnectTimeout = 30,
                 ApplicationName = "Dapper.Samples.Advanced"
 
             };
+
+            // Check for connectivity to SQL Server
+            try {
+                var dummy = new SqlConnection(builder.ConnectionString);
+                dummy.Open();
+            } catch (SqlException) {
+                Console.WriteLine($"ERROR: Cannot open connection to {dataSource}");
+                return;
+            }
 
             // Wrap common code in an Action shell
             Action<string, Action<SqlConnection>> ExecuteSample = (message, action) =>

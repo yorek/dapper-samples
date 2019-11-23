@@ -4,13 +4,10 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
-#if !NETCOREAPP2_0
 using Microsoft.SqlServer.Types;
-#endif
 
 namespace Dapper.Samples.Advanced
 {
-#if !NETCOREAPP2_0
     public class Address
     {
         public string Street { get; set; }
@@ -28,7 +25,7 @@ namespace Dapper.Samples.Advanced
             return String.Format(string.Join(",", r));
         }
     }
-#endif
+
     public class SQLServerFeatures : ISample
     {
 
@@ -73,7 +70,7 @@ namespace Dapper.Samples.Advanced
             Console.WriteLine($"Inserted {affectedRows} values into dbo.[UserTags] via TVP.");
             Console.WriteLine();
         }
-#if !NETCOREAPP2_0
+
         private void ShowSpatial(SqlConnection conn)
         {
             Console.WriteLine("Testing SQL Server Spatial Data Types");
@@ -109,17 +106,5 @@ namespace Dapper.Samples.Advanced
 
             Console.WriteLine();
         }
-#endif
-#if NETCOREAPP2_0
-        private void ShowSpatial(SqlConnection conn)
-        {
-            Console.WriteLine("SQL Server Spatial Data Types not yet supported in .NET Core");
-        }
-
-        private void ShowHierarchyId(SqlConnection conn)
-        {
-            Console.WriteLine("SQL Server HieararchyID Types not yet supported in .NET Core");
-        }
-#endif
     }
 }
