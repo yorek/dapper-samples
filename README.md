@@ -64,6 +64,12 @@ The project supports multiple targets:
 * net48
 * netcoreapp3.0
 
+if you are looking for samples supporting older version, take a look at the previous releases as they support also:
+
+* .NET Framework 4.5.2
+* .NET Core 2.0
+* Dapper 1.50
+
 To execute the application targeting one specifc framework, just use the `-f` option when running the console app:
 
 ```dotnet run -f net48```
