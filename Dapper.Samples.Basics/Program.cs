@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using Dapper;
@@ -13,16 +13,31 @@ namespace Dapper.Samples.Basics
         {
             var dataFolder = Directory.GetParent(Environment.CurrentDirectory).GetDirectories("Dapper.Samples.Data").Single();
 
+            var dataSource = @"(LocalDB)\MSSQLLocalDB";
+            if (args.Count() >= 1)
+            {
+                dataSource = args[0];                
+            }
+
+            Console.WriteLine($"Using Data Source: '{dataSource}'");
+
             // Create connection string
             var builder = new SqlConnectionStringBuilder()
             {
-                DataSource = @"(LocalDB)\MSSQLLocalDB",
+                DataSource = dataSource,
                 AttachDBFilename = $@"{dataFolder.FullName}\DapperSample.mdf",
                 IntegratedSecurity = true,
-                ConnectTimeout = 30,
+                ConnectTimeout = 10,
                 ApplicationName = "Dapper.Samples.Basics"
-
             };
+
+            try {
+                var dummy = new SqlConnection(builder.ConnectionString);
+                dummy.Open();
+            } catch (SqlException) {
+                Console.WriteLine($"ERROR: Cannot open connection to {dataSource}");
+                return;
+            }
 
             // Wrap common code in an Action shell
             Action<string, Action<SqlConnection>> ExecuteSample = (message, action) =>
