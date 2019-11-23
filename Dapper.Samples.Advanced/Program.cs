@@ -23,8 +23,8 @@ namespace Dapper.Samples.Advanced
             Console.WriteLine("https://medium.com/dapper-net");
             Console.WriteLine();
 
-            //var dataSource = @"(LocalDB)\MSSQLLocalDB";
-            var dataSource = @".";
+            var dataSource = @"(LocalDB)\MSSQLLocalDB";
+            //var dataSource = @".";
 
             // Create connection string
             var dataFolder = Directory.GetParent(Environment.CurrentDirectory).GetDirectories("Dapper.Samples.Data").Single();
