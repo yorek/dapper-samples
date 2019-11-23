@@ -29,8 +29,7 @@ namespace Dapper.Samples.Advanced
             var builder = new SqlConnectionStringBuilder()
             {
                 DataSource = @"(LocalDB)\MSSQLLocalDB",
-                AttachDBFilename = $@"{dataFolder.FullName
-                }\DapperSample.mdf",
+                AttachDBFilename = $@"{dataFolder.FullName}\DapperSample.mdf",
                 IntegratedSecurity = true,
                 ConnectTimeout = 30,
                 ApplicationName = "Dapper.Samples.Advanced"

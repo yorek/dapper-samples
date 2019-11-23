@@ -67,11 +67,7 @@ namespace Dapper.Samples.Advanced
                 "INSERT INTO dbo.[UserTags] SELECT * FROM @ut",
                 new
                 {
-                    // As of Dapper 1.50.2 Doesn't work yet with .NET Core
-                    //@ut = ut.AsTableValuedParameter("UserTagsType")
-
-                    // But this works nice
-                    ut = new TableValuedParameter(ut)
+                    @ut = ut.AsTableValuedParameter("UserTagsType")
                 });    
 
             Console.WriteLine($"Inserted {affectedRows} values into dbo.[UserTags] via TVP.");
@@ -125,29 +121,5 @@ namespace Dapper.Samples.Advanced
             Console.WriteLine("SQL Server HieararchyID Types not yet supported in .NET Core");
         }
 #endif
-    }
-
-    public class TableValuedParameter : SqlMapper.ICustomQueryParameter
-    {
-        private DataTable _dataTable;
-        private string _typeName;
-
-        public TableValuedParameter(DataTable dataTable)
-        {            
-            this._typeName = dataTable.TableName;
-            _dataTable = dataTable;
-        }
-
-        public void AddParameter(IDbCommand command, string name)
-        {
-            var parameter = (SqlParameter)command.CreateParameter();
-
-            parameter.ParameterName = name;
-            parameter.SqlDbType = SqlDbType.Structured;
-            parameter.Value = _dataTable;
-            parameter.TypeName = _dataTable.TableName;     
-
-            command.Parameters.Add(parameter);
-        }
     }
 }
