@@ -11,7 +11,10 @@ namespace Dapper.Samples.Basics
     {
         static void Main(string[] args)
         {
-            var dataFolder = Directory.GetParent(Environment.CurrentDirectory).GetDirectories("Dapper.Samples.Data").Single();
+            Console.WriteLine("Dapper .NET Usage Samples");
+            Console.WriteLine("by Davide Mauri");
+            Console.WriteLine("https://medium.com/dapper-net");
+            Console.WriteLine();
 
             var dataSource = @"(LocalDB)\MSSQLLocalDB";
             if (args.Count() >= 1)
@@ -22,6 +25,7 @@ namespace Dapper.Samples.Basics
             Console.WriteLine($"Using Data Source: '{dataSource}'");
 
             // Create connection string
+	        var dataFolder = Directory.GetParent(Environment.CurrentDirectory).GetDirectories("Dapper.Samples.Data").Single();
             var builder = new SqlConnectionStringBuilder()
             {
                 DataSource = dataSource,
@@ -31,6 +35,7 @@ namespace Dapper.Samples.Basics
                 ApplicationName = "Dapper.Samples.Basics"
             };
 
+            // Check for connectivity to SQL Server
             try {
                 var dummy = new SqlConnection(builder.ConnectionString);
                 dummy.Open();
