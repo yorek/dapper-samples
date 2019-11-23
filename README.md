@@ -25,7 +25,7 @@ Please note that the "One-To-Many Relatioships" and "Complex Custom Handling" po
 
 To run the "Basic Samples", related to the first article "Getting Started with Dapper .NET", just run
 
-```dotnet run -f net452```
+```dotnet run -f net48```
 
 from
 
@@ -37,40 +37,40 @@ folder. To run advanced samples you have to move into
 
 and then from here you can just run
 
-```dotnet run -f net452```
+```dotnet run -f net48```
 
 to run ALL samples or 
 
-```dotnet run -f net452 "Sample Name"```
+```dotnet run -f net48 "Sample Name"```
 
 to run that specific sample. Eg:
 
-```dotnet run -f net452 "Multiple Executions"```
+```dotnet run -f net48 "Multiple Executions"```
 
 to run only the "Multiple Execution" sample.
 
 To have a list of all advanced samples available run:
 
-```dotnet run -f net452 -help```
+```dotnet run -f net48 -help```
 
 ## Notes
 
 ### .NET Version
 
-Samples are done using [.NET Core 2.0](https://www.microsoft.com/net/download/windows) and [.NET Framework 4.5.2](https://github.com/Microsoft/dotnet/blob/master/releases/README.md): make sure you have them installed it on your machine.
+Samples are done using [.NET Core 3.0](https://www.microsoft.com/net/download/windows) and [.NET Framework 4.8](https://www.microsoft.com/net/download/windows): make sure you have them installed it on your machine.
 
-In order to use features not yet supported by .NET Core 2.0, like SQL Server Spatial Data Types, the project supports multiple targets:
+The project supports multiple targets:
 
-* net452
-* netcoreapp2.0
+* net48
+* netcoreapp3.0
 
 To execute the application targeting one specifc framework, just use the `-f` option when running the console app:
 
-```dotnet run -f net452```
+```dotnet run -f net48```
 
 more info on the `-f` option here:
 
-[dotnet run](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-run?tabs=netcore2x)
+[dotnet run](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-run)
 
 ### SQL Server
 
