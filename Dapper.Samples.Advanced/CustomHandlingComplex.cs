@@ -25,7 +25,8 @@ namespace Dapper.Samples.Advanced
             public JArray Tags { get; set; }
             public Roles Roles { get; set; }
             public Company Company { get; set; }
-            public Preferences Preferences { get; set; }
+            public Preferences Preferences { get; set; }            
+            public string Notes { get; set; }
 
             public override string ToString()
             {
@@ -33,7 +34,8 @@ namespace Dapper.Samples.Advanced
                     $"USER => Id: {Id}, FirstName: {FirstName}, LastName: {LastName}" + Environment.NewLine + 
                     $"ROLES => {Roles?.ToString()}" + Environment.NewLine + 
                     $"TAGS => {Tags?.ToString()}" + Environment.NewLine + 
-                    $"COMPANY => {Company?.ToString()}";
+                    $"COMPANY => {Company?.ToString()}" + Environment.NewLine + 
+                    $"NOTES => {Notes}";
             }
         }
 
